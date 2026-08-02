@@ -1,0 +1,45 @@
+@layout('layouts.app')
+
+@section('title')
+  {{ category.title }}
+@endsection
+
+@section('content')
+  <div class="pill-row" style="margin-bottom:1rem">
+    @foreach(item of categories)
+      <a class="pill {{ item.id === category.id ? 'active' : '' }}" href="/learn/{{ item.id }}">{{ item.emoji }} {{ item.title }}</a>
+    @endforeach
+  </div>
+
+  <span class="eyebrow">{{ category.emoji }} {{ category.title }}</span>
+  <h1>{{ category.title }}</h1>
+  <p class="lead">{{ category.blurb }}</p>
+  <div class="actions" style="margin-bottom:1.2rem">
+    <a class="btn btn-primary" href="/games/quiz">Quiz me</a>
+    <a class="btn btn-secondary" href="/games/match">Match pairs</a>
+    <a class="btn btn-ghost" href="/learn">All topics</a>
+  </div>
+
+  <div class="grid">
+    @foreach(word of words)
+      <article class="word-card">
+        <div class="jv">{{ word.javanese }}</div>
+        @if(word.aksara)
+          <div class="aksara">{{ word.aksara }}</div>
+        @endif
+        <div class="en">{{ word.english }}</div>
+        @if(word.notes)
+          <p class="meta" style="margin-top:0.55rem">{{ word.notes }}</p>
+        @endif
+        @if(word.example)
+          <div class="example">
+            <div><strong>{{ word.example }}</strong></div>
+            @if(word.exampleEn)
+              <div class="meta">{{ word.exampleEn }}</div>
+            @endif
+          </div>
+        @endif
+      </article>
+    @endforeach
+  </div>
+@endsection

@@ -1,0 +1,29 @@
+@layout('layouts.app')
+
+@section('title')
+  Blog
+@endsection
+
+@section('content')
+  <span class="eyebrow">rontal</span>
+  <h1>Lessons & notes</h1>
+  <p class="lead">Short reads about Javanese language and culture. Powered by the rontal headless blog package.</p>
+
+  @if(posts.length === 0)
+    <div class="empty" style="margin-top:1.2rem">
+      No published posts yet. Run migrations and reload — demo posts seed automatically on boot.
+    </div>
+  @else
+    <div class="grid" style="margin-top:1.5rem">
+      @foreach(post of posts)
+        <article class="post-card">
+          <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+          @if(post.excerpt)
+            <p>{{ post.excerpt }}</p>
+          @endif
+          <div class="meta">{{ post.published_at }}</div>
+        </article>
+      @endforeach
+    </div>
+  @endif
+@endsection

@@ -1,0 +1,88 @@
+@layout('layouts.app')
+
+@section('title')
+  Learn Javanese
+@endsection
+
+@section('content')
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">ꦗꦮ · Basa Jawa</span>
+      <h1>Learn basic Javanese with warmth, not overwhelm.</h1>
+      <p class="lead">
+        Short vocabulary lists, stateless practice games, and friendly cultural notes.
+        No accounts — every refresh is a clean slate.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/learn">Browse vocabulary</a>
+        <a class="btn btn-secondary" href="/games/quiz">Play a quiz</a>
+        <a class="btn btn-ghost" href="/blog">Read the blog</a>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <strong>{{ wordCount }}</strong>
+          <span>words & phrases</span>
+        </div>
+        <div class="stat">
+          <strong>{{ categoryCount }}</strong>
+          <span>topic lists</span>
+        </div>
+        <div class="stat">
+          <strong>3</strong>
+          <span>practice games</span>
+        </div>
+      </div>
+    </div>
+    <aside class="hero-panel">
+      <h2>Try saying this</h2>
+      <p class="jv" style="font-size:1.8rem;font-weight:700;margin:0.4rem 0;color:var(--ink)">Sugeng enjing</p>
+      <p class="aksara" style="font-size:1.6rem;color:var(--brand);margin:0 0 0.6rem">ꦱꦸꦒꦼꦁ​ꦲꦼꦚ꧀ꦗꦶꦁ</p>
+      <p><strong>Good morning</strong> — a polite way to open the day.</p>
+      <p class="meta">Then answer with a smile: <em>Sugeng enjing</em> right back.</p>
+      <div class="actions">
+        <a class="btn btn-accent" href="/games/flashcards">Flashcard warm-up</a>
+      </div>
+    </aside>
+  </section>
+
+  <div class="section-head">
+    <div>
+      <h2>Start with a topic</h2>
+      <p>Pick a list and learn a handful of words you can use today.</p>
+    </div>
+    <a class="btn btn-secondary" href="/learn">All topics</a>
+  </div>
+  <div class="grid">
+    @foreach(category of categories)
+      <a class="card" href="/learn/{{ category.id }}" style="text-decoration:none;color:inherit">
+        <div style="font-size:1.6rem;margin-bottom:0.4rem">{{ category.emoji }}</div>
+        <h3>{{ category.title }}</h3>
+        <p>{{ category.blurb }}</p>
+      </a>
+    @endforeach
+  </div>
+
+  <div class="section-head">
+    <div>
+      <h2>From the rontal blog</h2>
+      <p>Short notes on politeness levels, markets, and aksara.</p>
+    </div>
+    <a class="btn btn-secondary" href="/blog">All posts</a>
+  </div>
+
+  @if(latestPosts.length === 0)
+    <div class="empty">Blog posts will appear here after the database is seeded.</div>
+  @else
+    <div class="grid">
+      @foreach(post of latestPosts)
+        <article class="post-card">
+          <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+          @if(post.excerpt)
+            <p>{{ post.excerpt }}</p>
+          @endif
+          <div class="meta">{{ post.published_at }}</div>
+        </article>
+      @endforeach
+    </div>
+  @endif
+@endsection

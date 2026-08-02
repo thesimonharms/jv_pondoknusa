@@ -1,0 +1,18 @@
+@layout('layouts.app')
+
+@section('title')
+  {{ title }}
+@endsection
+
+@section('content')
+  <p class="meta"><a href="/blog">← All posts</a></p>
+  <span class="eyebrow">Lesson</span>
+  <h1>{{ title }}</h1>
+  @if(excerpt)
+    <p class="lead">{{ excerpt }}</p>
+  @endif
+  <p class="meta" style="margin-bottom:1.2rem">{{ published_at }}</p>
+  <article class="post-body">
+    {!! bodyHtml !!}
+  </article>
+@endsection

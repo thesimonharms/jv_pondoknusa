@@ -1,0 +1,29 @@
+@layout('layouts.app')
+
+@section('title')
+  Games
+@endsection
+
+@section('content')
+  <span class="eyebrow">Practice</span>
+  <h1>Learning games</h1>
+  <p class="lead">Stateless drills — scores live only in this page. Refresh anytime for a brand-new round.</p>
+
+  <div class="grid" style="margin-top:1.5rem">
+    <a class="game-card" href="/games/match" style="text-decoration:none;color:inherit">
+      <h3>Match pairs</h3>
+      <p>Connect Javanese words with their English meanings. Six fresh pairs each visit.</p>
+      <span class="btn btn-primary" style="margin-top:0.6rem">Play match</span>
+    </a>
+    <a class="game-card" href="/games/quiz" style="text-decoration:none;color:inherit">
+      <h3>Multiple choice</h3>
+      <p>See a Javanese prompt, pick the right English meaning. Eight questions per run.</p>
+      <span class="btn btn-primary" style="margin-top:0.6rem">Start quiz</span>
+    </a>
+    <a class="game-card" href="/games/flashcards" style="text-decoration:none;color:inherit">
+      <h3>Flashcards</h3>
+      <p>Flip through a shuffled deck. Self-grade as you go — no login wall.</p>
+      <span class="btn btn-primary" style="margin-top:0.6rem">Study cards</span>
+    </a>
+  </div>
+@endsection

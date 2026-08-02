@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+database/*.sqlite
+database/*.sqlite-*
+*.db
+
+# Runtime / caches
+storage/logs/*
+!storage/logs/.gitkeep
+storage/framework/cache/*
+!storage/framework/cache/.gitkeep
+storage/framework/views/*
+!storage/framework/views/.gitkeep
+storage/framework/sessions/*
+!storage/framework/sessions/.gitkeep
+storage/framework/*.json
+storage/framework/*.mjs
+storage/framework/tls/
+bootstrap/
+
+# Local smoke / temp
+smoke/
+tmp/
+temp/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Test / coverage
+coverage/
+.vitest/

@@ -1,0 +1,15 @@
+@layout('layouts.app')
+
+@section('title')
+  Not found
+@endsection
+
+@section('content')
+  <span class="eyebrow">404</span>
+  <h1>Page not found</h1>
+  <p class="lead">{{ message }}</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="/">Go home</a>
+    <a class="btn btn-secondary" href="/learn">Browse vocabulary</a>
+  </div>
+@endsection

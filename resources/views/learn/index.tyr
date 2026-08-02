@@ -1,0 +1,22 @@
+@layout('layouts.app')
+
+@section('title')
+  Vocabulary
+@endsection
+
+@section('content')
+  <span class="eyebrow">Learn</span>
+  <h1>Vocabulary lists</h1>
+  <p class="lead">{{ wordCount }} beginner-friendly Javanese words and phrases, grouped by everyday topics.</p>
+
+  <div class="grid" style="margin-top:1.5rem">
+    @foreach(category of categories)
+      <a class="card" href="/learn/{{ category.id }}" style="text-decoration:none;color:inherit">
+        <div style="font-size:1.6rem;margin-bottom:0.4rem">{{ category.emoji }}</div>
+        <h3>{{ category.title }}</h3>
+        <p>{{ category.blurb }}</p>
+        <div class="meta">{{ category.count }} words</div>
+      </a>
+    @endforeach
+  </div>
+@endsection

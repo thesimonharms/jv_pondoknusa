@@ -1,0 +1,118 @@
+@layout('layouts.app')
+
+@section('title')
+  Flashcards
+@endsection
+
+@section('content')
+  <span class="eyebrow">Game</span>
+  <h1>Flashcards</h1>
+  <p class="lead">Tap the card to flip. Mark whether you knew it — nothing is saved.</p>
+
+  <div class="scorebar">
+    <div>
+      <strong id="indexLabel">1</strong>
+      <span class="meta"> / <span id="total">0</span> · knew <strong id="known">0</strong> · again <strong id="unknown">0</strong></span>
+    </div>
+    <div class="actions" style="margin:0">
+      <button class="btn btn-secondary" type="button" id="restart">Shuffle again</button>
+      <a class="btn btn-ghost" href="/games">All games</a>
+    </div>
+  </div>
+
+  <div class="flash-card" id="card" tabindex="0" role="button" aria-label="Flip flashcard">
+    <div>
+      <div class="meta" id="sideLabel">Javanese</div>
+      <div class="prompt" id="prompt"></div>
+      <div class="hint" id="hint">Tap to flip</div>
+    </div>
+  </div>
+
+  <div class="actions" style="margin-top:1rem">
+    <button class="btn btn-accent" type="button" id="know">I knew it</button>
+    <button class="btn btn-secondary" type="button" id="again">Still learning</button>
+    <button class="btn btn-ghost" type="button" id="flip">Flip</button>
+  </div>
+  <p class="meta" id="status" style="margin-top:1rem"></p>
+@endsection
+
+@push('scripts')
+<script id="cards-data" type="application/json">{!! cardsJson !!}</script>
+<script>
+(() => {
+  const cards = JSON.parse(document.getElementById('cards-data').textContent || '[]');
+  const cardEl = document.getElementById('card');
+  const promptEl = document.getElementById('prompt');
+  const hintEl = document.getElementById('hint');
+  const sideLabel = document.getElementById('sideLabel');
+  const indexLabel = document.getElementById('indexLabel');
+  const totalEl = document.getElementById('total');
+  const knownEl = document.getElementById('known');
+  const unknownEl = document.getElementById('unknown');
+  const statusEl = document.getElementById('status');
+  let index = 0;
+  let flipped = false;
+  let known = 0;
+  let unknown = 0;
+
+  totalEl.textContent = String(cards.length);
+
+  function render() {
+    const card = cards[index];
+    if (!card) {
+      promptEl.textContent = 'Deck complete';
+      hintEl.textContent = `Knew ${known} · still learning ${unknown}`;
+      sideLabel.textContent = 'Done';
+      statusEl.textContent = 'Refresh for another shuffled deck.';
+      return;
+    }
+    flipped = false;
+    indexLabel.textContent = String(index + 1);
+    knownEl.textContent = String(known);
+    unknownEl.textContent = String(unknown);
+    sideLabel.textContent = 'Javanese';
+    promptEl.textContent = card.front;
+    hintEl.textContent = card.aksara ? card.aksara + ' · tap to flip' : 'Tap to flip';
+    statusEl.textContent = '';
+  }
+
+  function flip() {
+    const card = cards[index];
+    if (!card) return;
+    flipped = !flipped;
+    if (flipped) {
+      sideLabel.textContent = 'English';
+      promptEl.textContent = card.back;
+      hintEl.textContent = card.example
+        ? `${card.example}${card.exampleEn ? ' — ' + card.exampleEn : ''}`
+        : 'Tap to see Javanese again';
+    } else {
+      sideLabel.textContent = 'Javanese';
+      promptEl.textContent = card.front;
+      hintEl.textContent = card.aksara ? card.aksara + ' · tap to flip' : 'Tap to flip';
+    }
+  }
+
+  function grade(isKnown) {
+    if (!cards[index]) return;
+    if (isKnown) known += 1;
+    else unknown += 1;
+    index += 1;
+    render();
+  }
+
+  cardEl.addEventListener('click', flip);
+  cardEl.addEventListener('keydown', (event) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      flip();
+    }
+  });
+  document.getElementById('flip').addEventListener('click', flip);
+  document.getElementById('know').addEventListener('click', () => grade(true));
+  document.getElementById('again').addEventListener('click', () => grade(false));
+  document.getElementById('restart').addEventListener('click', () => window.location.reload());
+  render();
+})();
+</script>
+@endpush

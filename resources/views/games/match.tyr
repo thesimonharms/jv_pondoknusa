@@ -1,0 +1,139 @@
+@layout('layouts.app')
+
+@section('title')
+  Match pairs
+@endsection
+
+@section('content')
+  <span class="eyebrow">Game</span>
+  <h1>Match pairs</h1>
+  <p class="lead">Select one Javanese word and one English meaning. Matched pairs fade out.</p>
+
+  <div class="scorebar">
+    <div>
+      <strong id="score">0</strong>
+      <span class="meta"> / <span id="total">0</span> matched</span>
+    </div>
+    <div class="actions" style="margin:0">
+      <button class="btn btn-secondary" type="button" id="restart">New round</button>
+      <a class="btn btn-ghost" href="/games">All games</a>
+    </div>
+  </div>
+
+  <div class="match-grid" id="board"></div>
+  <p class="meta" id="status" style="margin-top:1rem">Pick a word on the left, then its meaning on the right.</p>
+@endsection
+
+@push('scripts')
+<script id="match-data" type="application/json">{!! deckJson !!}</script>
+<script>
+(() => {
+  const dataEl = document.getElementById('match-data');
+  const board = document.getElementById('board');
+  const scoreEl = document.getElementById('score');
+  const totalEl = document.getElementById('total');
+  const statusEl = document.getElementById('status');
+  const restartBtn = document.getElementById('restart');
+  let deck = JSON.parse(dataEl.textContent || '{"prompts":[],"answers":[]}');
+  let selected = null;
+  let matched = 0;
+  let locked = false;
+
+  function render() {
+    matched = 0;
+    selected = null;
+    locked = false;
+    totalEl.textContent = String(deck.prompts.length);
+    scoreEl.textContent = '0';
+    statusEl.textContent = 'Pick a word on the left, then its meaning on the right.';
+    board.innerHTML = '';
+
+    const left = document.createElement('div');
+    left.className = 'match-col';
+    left.dataset.side = 'prompt';
+    for (const item of deck.prompts) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tile';
+      btn.dataset.id = item.id;
+      btn.dataset.side = 'prompt';
+      btn.textContent = item.text;
+      btn.addEventListener('click', () => onPick(btn));
+      left.appendChild(btn);
+    }
+
+    const right = document.createElement('div');
+    right.className = 'match-col';
+    right.dataset.side = 'answer';
+    for (const item of deck.answers) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tile';
+      btn.dataset.id = item.id;
+      btn.dataset.side = 'answer';
+      btn.textContent = item.text;
+      btn.addEventListener('click', () => onPick(btn));
+      right.appendChild(btn);
+    }
+
+    board.append(left, right);
+  }
+
+  function clearSelection() {
+    board.querySelectorAll('.tile.selected').forEach((el) => el.classList.remove('selected'));
+    selected = null;
+  }
+
+  function onPick(btn) {
+    if (locked || btn.classList.contains('matched')) return;
+
+    if (!selected) {
+      selected = btn;
+      btn.classList.add('selected');
+      return;
+    }
+
+    if (selected === btn) {
+      clearSelection();
+      return;
+    }
+
+    if (selected.dataset.side === btn.dataset.side) {
+      clearSelection();
+      selected = btn;
+      btn.classList.add('selected');
+      return;
+    }
+
+    locked = true;
+    btn.classList.add('selected');
+    const a = selected;
+    const b = btn;
+    if (a.dataset.id === b.dataset.id) {
+      a.classList.add('matched');
+      b.classList.add('matched');
+      matched += 1;
+      scoreEl.textContent = String(matched);
+      statusEl.textContent = matched === deck.prompts.length
+        ? 'Nice work — all pairs matched. Start a new round?'
+        : 'Matched! Keep going.';
+      clearSelection();
+      locked = false;
+    } else {
+      a.classList.add('wrong');
+      b.classList.add('wrong');
+      statusEl.textContent = 'Not a pair — try again.';
+      setTimeout(() => {
+        a.classList.remove('wrong', 'selected');
+        b.classList.remove('wrong', 'selected');
+        selected = null;
+        locked = false;
+      }, 450);
+    }
+  }
+
+  restartBtn.addEventListener('click', () => window.location.reload());
+  render();
+})();
+</script>
+@endpush

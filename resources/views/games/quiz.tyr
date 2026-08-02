@@ -1,0 +1,108 @@
+@layout('layouts.app')
+
+@section('title')
+  Quiz
+@endsection
+
+@section('content')
+  <span class="eyebrow">Game</span>
+  <h1>Multiple choice</h1>
+  <p class="lead">What does this Javanese word mean?</p>
+
+  <div class="scorebar">
+    <div>
+      <strong id="progress">1</strong>
+      <span class="meta"> / <span id="total">0</span> · score <strong id="score">0</strong></span>
+    </div>
+    <div class="actions" style="margin:0">
+      <button class="btn btn-secondary" type="button" id="restart">New quiz</button>
+      <a class="btn btn-ghost" href="/games">All games</a>
+    </div>
+  </div>
+
+  <div class="quiz-card" id="card">
+    <div class="meta" id="aksara"></div>
+    <h2 id="prompt" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
+    <div class="choice-row" id="choices" style="display:grid;gap:0.65rem;margin-top:1rem"></div>
+    <p class="meta" id="feedback" style="margin-top:1rem"></p>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="next" hidden>Next</button>
+    </div>
+  </div>
+@endsection
+
+@push('scripts')
+<script id="quiz-data" type="application/json">{!! questionsJson !!}</script>
+<script>
+(() => {
+  const questions = JSON.parse(document.getElementById('quiz-data').textContent || '[]');
+  const promptEl = document.getElementById('prompt');
+  const aksaraEl = document.getElementById('aksara');
+  const choicesEl = document.getElementById('choices');
+  const feedbackEl = document.getElementById('feedback');
+  const nextBtn = document.getElementById('next');
+  const progressEl = document.getElementById('progress');
+  const totalEl = document.getElementById('total');
+  const scoreEl = document.getElementById('score');
+  let index = 0;
+  let score = 0;
+  let answered = false;
+
+  totalEl.textContent = String(questions.length);
+
+  function showQuestion() {
+    answered = false;
+    nextBtn.hidden = true;
+    feedbackEl.textContent = '';
+    const q = questions[index];
+    if (!q) {
+      promptEl.textContent = 'Quiz complete';
+      aksaraEl.textContent = '';
+      choicesEl.innerHTML = '';
+      feedbackEl.textContent = `You scored ${score} / ${questions.length}. Refresh for a new set.`;
+      return;
+    }
+    progressEl.textContent = String(index + 1);
+    scoreEl.textContent = String(score);
+    promptEl.textContent = q.prompt;
+    aksaraEl.textContent = q.aksara || 'What does this mean?';
+    choicesEl.innerHTML = '';
+    for (const choice of q.choices) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'choice';
+      btn.textContent = choice;
+      btn.addEventListener('click', () => onAnswer(btn, choice, q.answer));
+      choicesEl.appendChild(btn);
+    }
+  }
+
+  function onAnswer(btn, choice, answer) {
+    if (answered) return;
+    answered = true;
+    const buttons = [...choicesEl.querySelectorAll('.choice')];
+    for (const el of buttons) {
+      if (el.textContent === answer) el.classList.add('correct');
+      if (el === btn && choice !== answer) el.classList.add('incorrect');
+      el.disabled = true;
+    }
+    if (choice === answer) {
+      score += 1;
+      scoreEl.textContent = String(score);
+      feedbackEl.textContent = 'Correct!';
+    } else {
+      feedbackEl.textContent = `Not quite — answer: ${answer}`;
+    }
+    nextBtn.hidden = false;
+    nextBtn.textContent = index + 1 >= questions.length ? 'See results' : 'Next';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    index += 1;
+    showQuestion();
+  });
+  document.getElementById('restart').addEventListener('click', () => window.location.reload());
+  showQuestion();
+})();
+</script>
+@endpush
