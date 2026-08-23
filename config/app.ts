@@ -11,6 +11,7 @@ export const schema = s.object({
 
 export default {
   name: env('APP_NAME', 'Jawa Vocab'),
+  key: env('APP_KEY', ''),
   debug: env('APP_DEBUG', true),
   url: env('APP_URL', 'http://127.0.0.1:3000'),
   locale: env('APP_LOCALE', 'en'),

@@ -20,7 +20,7 @@ Built with [Pondoknusa](https://github.com/pondoknusa/pondoknusa) and [rontal](h
 
 | Piece | Choice |
 |--------|--------|
-| Framework | Pondoknusa 4 (`@pondoknusa/*`) |
+| Framework | Pondoknusa 4.2 (`@pondoknusa/*`) |
 | Views | `.tyr` templates (`@pondoknusa/views`) |
 | Blog | [rontal](https://www.npmjs.com/package/rontal) |
 | Database | SQLite (`node:sqlite`, Node 26+) |
