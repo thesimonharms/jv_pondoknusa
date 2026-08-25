@@ -13,6 +13,8 @@ export function registerWebRoutes(): void {
   Route.get('/games/match', [GameController, 'match']).name('games.match');
   Route.get('/games/quiz', [GameController, 'quiz']).name('games.quiz');
   Route.get('/games/flashcards', [GameController, 'flashcards']).name('games.flashcards');
+  Route.get('/games/scramble', [GameController, 'scramble']).name('games.scramble');
+  Route.get('/games/sentences', [GameController, 'sentences']).name('games.sentences');
   Route.get('/blog', [BlogController, 'index']).name('blog');
   Route.get('/blog/:slug', [BlogController, 'show']).name('blog.show');
 

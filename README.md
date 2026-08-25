@@ -8,12 +8,15 @@ Built with [Pondoknusa](https://github.com/pondoknusa/pondoknusa) and [rontal](h
 
 ## Features
 
-- **Vocabulary** — greetings, numbers, family, food, colors, and everyday words (Latin + optional Aksara Jawa)
+- **Vocabulary** — greetings, numbers, family, food, colors, everyday words, directions, actions, and feelings (Latin + optional Aksara Jawa)
 - **Games** (stateless, reshuffled on each visit)
   - Match pairs
   - Multiple-choice quiz
   - Flashcards
-- **Blog** — short lessons on speech levels, markets, and aksara, powered by **rontal**
+  - Word scramble
+  - Sentence builder
+
+- **Blog** — short lessons on speech levels, markets, pronunciation, hospitality, and aksara, powered by **rontal**
 - **Public API** — `GET /api/posts`, `GET /api/posts/:slug`, RSS/Atom feeds from rontal
 
 ## Stack
@@ -69,11 +72,12 @@ npx pondoknusa route:cache
 |------|-------------|
 | `/` | Home |
 | `/learn` | Vocabulary topics |
-| `/learn/:category` | Words in a topic |
 | `/games` | Game hub |
 | `/games/match` | Match pairs |
 | `/games/quiz` | Multiple choice |
 | `/games/flashcards` | Flashcards |
+| `/games/scramble` | Word scramble |
+| `/games/sentences` | Sentence builder |
 | `/blog` | Lesson posts (rontal) |
 | `/blog/:slug` | Single post |
 | `/api/posts` | Public JSON list |

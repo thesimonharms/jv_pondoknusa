@@ -25,5 +25,15 @@
       <p>Flip through a shuffled deck. Self-grade as you go — no login wall.</p>
       <span class="btn btn-primary" style="margin-top:0.6rem">Study cards</span>
     </a>
+    <a class="game-card" href="/games/scramble" style="text-decoration:none;color:inherit">
+      <h3>Word scramble</h3>
+      <p>Rebuild a Javanese word from its English meaning. Accents and spaces are optional when typing.</p>
+      <span class="btn btn-primary" style="margin-top:0.6rem">Play scramble</span>
+    </a>
+    <a class="game-card" href="/games/sentences" style="text-decoration:none;color:inherit">
+      <h3>Sentence builder</h3>
+      <p>Arrange word tiles into friendly phrases you can use in a real conversation.</p>
+      <span class="btn btn-primary" style="margin-top:0.6rem">Build a sentence</span>
+    </a>
   </div>
 @endsection

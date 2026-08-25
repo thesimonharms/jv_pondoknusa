@@ -94,4 +94,11 @@ describe('feature / example', () => {
     const response = await t.http.get('http://localhost/healthz');
     await response.assertOk();
   });
+  it('serves the new game routes', async () => {
+    const scramble = await t.http.get('http://localhost/games/scramble');
+    await scramble.assertOk();
+
+    const sentences = await t.http.get('http://localhost/games/sentences');
+    await sentences.assertOk();
+  });
 });

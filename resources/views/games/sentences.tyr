@@ -1,0 +1,166 @@
+@layout('layouts.app')
+
+@section('title')
+  Sentence builder
+@endsection
+
+@section('content')
+  <span class="eyebrow">Game</span>
+  <h1>Sentence builder</h1>
+  <p class="lead">Tap the word tiles in the right order to build a useful Javanese phrase.</p>
+
+  <div class="scorebar">
+    <div>
+      <strong id="progress">1</strong>
+      <span class="meta"> / <span id="total">0</span> · score <strong id="score">0</strong></span>
+    </div>
+    <div class="actions" style="margin:0">
+      <button class="btn btn-secondary" type="button" id="restart">New round</button>
+      <a class="btn btn-ghost" href="/games">All games</a>
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="meta">Build the Javanese sentence for</div>
+    <h2 id="meaning" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
+    <div class="sentence-slots" id="answer" aria-live="polite"></div>
+    <p class="meta" id="instruction">Tap a word below to place it here. Tap a placed word to remove it.</p>
+    <div class="word-bank" id="bank"></div>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="check" disabled>Check sentence</button>
+      <button class="btn btn-secondary" type="button" id="clear">Clear</button>
+      <button class="btn btn-ghost" type="button" id="next" hidden>Next</button>
+    </div>
+    <p class="meta" id="feedback" aria-live="polite" style="margin-top:1rem"></p>
+  </div>
+@endsection
+
+@push('scripts')
+<script id="sentences-data" type="application/json">{!! sentencesJson !!}</script>
+<script>
+(() => {
+  const sentences = JSON.parse(document.getElementById('sentences-data').textContent || '[]');
+  const meaningEl = document.getElementById('meaning');
+  const answerEl = document.getElementById('answer');
+  const bankEl = document.getElementById('bank');
+  const instructionEl = document.getElementById('instruction');
+  const feedbackEl = document.getElementById('feedback');
+  const progressEl = document.getElementById('progress');
+  const totalEl = document.getElementById('total');
+  const scoreEl = document.getElementById('score');
+  const checkBtn = document.getElementById('check');
+  const clearBtn = document.getElementById('clear');
+  const nextBtn = document.getElementById('next');
+  let index = 0;
+  let score = 0;
+  let selected = [];
+  let answered = false;
+
+  function render() {
+    const sentence = sentences[index];
+    answered = false;
+    selected = [];
+    feedbackEl.textContent = '';
+    nextBtn.hidden = true;
+    totalEl.textContent = String(sentences.length);
+    scoreEl.textContent = String(score);
+    answerEl.innerHTML = '';
+    bankEl.innerHTML = '';
+
+    if (!sentence) {
+      progressEl.textContent = String(sentences.length);
+      meaningEl.textContent = 'Round complete';
+      instructionEl.textContent = `You scored ${score} / ${sentences.length}. Start a new round for more phrases.`;
+      checkBtn.hidden = true;
+      clearBtn.hidden = true;
+      return;
+    }
+
+    progressEl.textContent = String(index + 1);
+    meaningEl.textContent = sentence.english;
+    checkBtn.hidden = false;
+    clearBtn.hidden = false;
+    checkBtn.disabled = true;
+    renderTiles();
+  }
+
+  function renderTiles() {
+    answerEl.innerHTML = '';
+    bankEl.innerHTML = '';
+    const sentence = sentences[index];
+    if (!sentence) return;
+
+    if (selected.length === 0) {
+      const placeholder = document.createElement('span');
+      placeholder.className = 'meta';
+      placeholder.textContent = 'Your sentence will appear here';
+      answerEl.appendChild(placeholder);
+    }
+
+    selected.forEach((wordIndex) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tile sentence-slot';
+      btn.textContent = sentence.words[wordIndex];
+      btn.title = 'Remove word';
+      btn.addEventListener('click', () => {
+        if (!answered) {
+          selected = selected.filter((item) => item !== wordIndex);
+          renderTiles();
+        }
+      });
+      answerEl.appendChild(btn);
+    });
+
+    sentence.words.forEach((word, wordIndex) => {
+      if (selected.includes(wordIndex)) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tile';
+      btn.textContent = word;
+      btn.addEventListener('click', () => {
+        if (!answered) {
+          selected.push(wordIndex);
+          renderTiles();
+        }
+      });
+      bankEl.appendChild(btn);
+    });
+    checkBtn.disabled = selected.length !== sentence.words.length || answered;
+  }
+
+  function check() {
+    const sentence = sentences[index];
+    if (!sentence || answered || selected.length !== sentence.words.length) return;
+    answered = true;
+    const built = selected.map((wordIndex) => sentence.words[wordIndex]).join(' ');
+    if (built === sentence.solution) {
+      score += 1;
+      scoreEl.textContent = String(score);
+      feedbackEl.textContent = 'Correct — that sentence sounds great.';
+    } else {
+      feedbackEl.textContent = `Not quite — the order is “${sentence.solution}”.`;
+    }
+    checkBtn.disabled = true;
+    clearBtn.disabled = true;
+    nextBtn.hidden = false;
+    nextBtn.textContent = index + 1 >= sentences.length ? 'See results' : 'Next';
+  }
+
+  checkBtn.addEventListener('click', check);
+  clearBtn.addEventListener('click', () => {
+    if (!answered) {
+      selected = [];
+      renderTiles();
+    }
+  });
+  nextBtn.addEventListener('click', () => {
+    index += 1;
+    clearBtn.disabled = false;
+    render();
+  });
+  document.getElementById('restart').addEventListener('click', () => window.location.reload());
+  render();
+})();
+</script>
+@endpush

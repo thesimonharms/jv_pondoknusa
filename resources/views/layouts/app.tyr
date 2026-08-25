@@ -357,6 +357,54 @@
       background: #fdecea;
       border-color: #b42318;
     }
+    .text-input {
+      width: 100%;
+      margin-top: 0.45rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      color: var(--ink);
+      padding: 0.9rem 1rem;
+      font: inherit;
+      font-size: 1.1rem;
+    }
+    .text-input:focus {
+      outline: 3px solid rgba(15, 107, 92, 0.18);
+      border-color: var(--accent);
+    }
+    .scramble-letters {
+      margin: 1rem 0 1.1rem;
+      padding: 1rem;
+      border-radius: 14px;
+      background: var(--bg-deep);
+      color: var(--brand-deep);
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+    .sentence-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+      min-height: 3.5rem;
+      margin: 1rem 0 0.65rem;
+      padding: 0.7rem;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .sentence-slot { width: auto; }
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      min-height: 3rem;
+      padding: 0.7rem 0;
+    }
+ 
 
     .flash-card {
       min-height: 280px;

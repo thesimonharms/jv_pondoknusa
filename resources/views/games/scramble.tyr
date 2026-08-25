@@ -1,0 +1,121 @@
+@layout('layouts.app')
+
+@section('title')
+  Word scramble
+@endsection
+
+@section('content')
+  <span class="eyebrow">Game</span>
+  <h1>Word scramble</h1>
+  <p class="lead">Unscramble the Javanese word from its English meaning. Accents and spaces are optional when you answer.</p>
+
+  <div class="scorebar">
+    <div>
+      <strong id="progress">1</strong>
+      <span class="meta"> / <span id="total">0</span> · score <strong id="score">0</strong></span>
+    </div>
+    <div class="actions" style="margin:0">
+      <button class="btn btn-secondary" type="button" id="restart">New round</button>
+      <a class="btn btn-ghost" href="/games">All games</a>
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="meta">Javanese meaning</div>
+    <h2 id="prompt" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
+    <div class="scramble-letters" id="letters" aria-label="Scrambled letters"></div>
+    <label class="meta" for="answer">Type the Javanese word</label>
+    <input class="text-input" id="answer" type="text" autocomplete="off" autocapitalize="none" spellcheck="false">
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="check">Check answer</button>
+      <button class="btn btn-ghost" type="button" id="hint">Hint</button>
+      <button class="btn btn-secondary" type="button" id="next" hidden>Next</button>
+    </div>
+    <p class="meta" id="feedback" aria-live="polite" style="margin-top:1rem"></p>
+  </div>
+@endsection
+
+@push('scripts')
+<script id="scramble-data" type="application/json">{!! challengesJson !!}</script>
+<script>
+(() => {
+  const challenges = JSON.parse(document.getElementById('scramble-data').textContent || '[]');
+  const promptEl = document.getElementById('prompt');
+  const lettersEl = document.getElementById('letters');
+  const answerEl = document.getElementById('answer');
+  const feedbackEl = document.getElementById('feedback');
+  const progressEl = document.getElementById('progress');
+  const totalEl = document.getElementById('total');
+  const scoreEl = document.getElementById('score');
+  const checkBtn = document.getElementById('check');
+  const hintBtn = document.getElementById('hint');
+  const nextBtn = document.getElementById('next');
+  let index = 0;
+  let score = 0;
+  let answered = false;
+
+  const normalize = (value) => value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z]/g, '');
+
+  function render() {
+    const challenge = challenges[index];
+    answered = false;
+    answerEl.value = '';
+    answerEl.disabled = !challenge;
+    checkBtn.hidden = !challenge;
+    checkBtn.disabled = false;
+    hintBtn.hidden = !challenge;
+    nextBtn.hidden = true;
+    feedbackEl.textContent = '';
+    scoreEl.textContent = String(score);
+    totalEl.textContent = String(challenges.length);
+
+    if (!challenge) {
+      progressEl.textContent = String(challenges.length);
+      promptEl.textContent = 'Round complete';
+      lettersEl.textContent = '';
+      feedbackEl.textContent = `You scored ${score} / ${challenges.length}. Start a new round for a fresh scramble.`;
+      return;
+    }
+
+    progressEl.textContent = String(index + 1);
+    promptEl.textContent = challenge.prompt;
+    lettersEl.textContent = challenge.letters.join(' · ');
+    answerEl.focus();
+  }
+
+  function check() {
+    const challenge = challenges[index];
+    if (!challenge || answered) return;
+    answered = true;
+    const correct = normalize(answerEl.value) === normalize(challenge.answer);
+    if (correct) {
+      score += 1;
+      scoreEl.textContent = String(score);
+      feedbackEl.textContent = 'Correct!';
+    } else {
+      feedbackEl.textContent = `Not quite — the answer is ${challenge.answer}.`;
+    }
+    answerEl.disabled = true;
+    checkBtn.disabled = true;
+    hintBtn.hidden = true;
+    nextBtn.hidden = false;
+    nextBtn.textContent = index + 1 >= challenges.length ? 'See results' : 'Next';
+  }
+
+  checkBtn.addEventListener('click', check);
+  answerEl.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') check();
+  });
+  hintBtn.addEventListener('click', () => {
+    const challenge = challenges[index];
+    if (challenge) feedbackEl.textContent = challenge.hint || 'Say it slowly, one syllable at a time.';
+  });
+  nextBtn.addEventListener('click', () => {
+    index += 1;
+    render();
+  });
+  document.getElementById('restart').addEventListener('click', () => window.location.reload());
+  render();
+})();
+</script>
+@endpush

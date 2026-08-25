@@ -38,6 +38,34 @@ function flashcardPayload(count = 12) {
   }));
 }
 
+function scramblePayload(count = 8) {
+  return pickRandom(count).map((item) => ({
+    id: item.id,
+    prompt: item.english,
+    letters: shuffle([...item.javanese.replace(/\s+/g, '')]),
+    answer: item.javanese,
+    hint: item.notes ?? null,
+  }));
+}
+
+const sentenceTemplates = [
+  { id: 'sentence-greeting', english: 'Good morning', words: ['Sugeng', 'enjing'] },
+  { id: 'sentence-thanks', english: 'Thank you very much', words: ['Matur', 'nuwun', 'sanget'] },
+  { id: 'sentence-coffee', english: 'I want to buy coffee', words: ['Aku', 'arep', 'tuku', 'kopi'] },
+  { id: 'sentence-understand', english: 'I do not understand', words: ['Aku', 'ora', 'ngerti'] },
+  { id: 'sentence-market', english: 'Where is the market?', words: ['Pasaré', 'ngendi'] },
+  { id: 'sentence-slowly', english: 'Take it slowly', words: ['Alon-alon', 'waé'] },
+];
+
+function sentencePayload(count = 5) {
+  return shuffle(sentenceTemplates).slice(0, count).map((sentence) => ({
+    ...sentence,
+    solution: sentence.words.join(' '),
+    words: shuffle(sentence.words),
+  }));
+}
+
+
 export class GameController {
   async index() {
     const html = await View.render('games/index', {});
@@ -61,6 +89,19 @@ export class GameController {
   async flashcards() {
     const html = await View.render('games/flashcards', {
       cardsJson: JSON.stringify(flashcardPayload(12)),
+    });
+    return Response.html(html);
+  }
+  async scramble() {
+    const html = await View.render('games/scramble', {
+      challengesJson: JSON.stringify(scramblePayload(8)),
+    });
+    return Response.html(html);
+  }
+
+  async sentences() {
+    const html = await View.render('games/sentences', {
+      sentencesJson: JSON.stringify(sentencePayload(5)),
     });
     return Response.html(html);
   }
