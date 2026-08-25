@@ -120,7 +120,91 @@ Pick three words you already know in Latin form, find their aksara on the learn 
 `,
     published_at: '2026-07-22T09:00:00.000Z',
   },
-];
+  {
+    title: 'A Friendly Guide to Javanese Pronunciation',
+    slug: 'javanese-pronunciation-guide',
+    excerpt: 'A few sound patterns that make your first words easier to say and hear.',
+    body: `## Start with the sounds you know
+
+You do not need a perfect accent to be understood. Say each word slowly, listen for the rhythm, and let the person you are speaking with guide you. Pronunciation varies across regions and families, so curiosity matters more than imitation.
+
+## Three useful patterns
+
+- **ng** sounds like the end of “sing”: *ngendi* (where?) begins with that same sound.
+- **ny** sounds like the middle of “canyon”: *nyuwun* (please / may I ask) starts with it.
+- **c** is usually close to the “ch” in “chair”: *cedhak* (near) is a good practice word.
+
+You may also see **dh**, **th**, and vowel marks such as **é** in careful spellings. The exact sound can shift with region and speech level; do not worry if a conversation writes the same word without the marks.
+
+## A two-minute practice
+
+1. Say *siji, loro, telu* (one, two, three) three times.
+2. Add a greeting: *Sugeng enjing*.
+3. Finish with *matur nuwun*.
+
+The [numbers list](/learn/numbers) and [greetings list](/learn/greetings) include more words to make this a tiny daily ritual.
+`,
+    published_at: '2026-07-29T09:00:00.000Z',
+  },
+  {
+    title: 'Three Small Ways to Be a Considerate Guest',
+    slug: 'being-a-considerate-guest',
+    excerpt: 'Language is part of hospitality: arrive gently, accept invitations, and say thanks.',
+    body: `## At the doorway
+
+When you arrive at someone’s home, *kula nuwun* is a familiar and respectful way to announce yourself. It is less a formal password than a gentle “excuse me, may I come in?”
+
+## Let your host lead
+
+You may hear **monggo**, an inviting “please go ahead” or “come in.” In a meal, a host may encourage you to eat before they do. A warm *matur nuwun* (thank you) and an unhurried response show that you noticed the welcome.
+
+## Make room for other people
+
+In a busy house or market, *nuwun sewu* can soften an interruption or a request for space. If you make a mistake, *pangapunten* (excuse me / sorry) is useful and sincere. These phrases work best with the same patience and attention you would bring to any introduction.
+
+## A little practice scene
+
+**A:** Kula nuwun.
+
+**B:** Monggo.
+
+**A:** Matur nuwun.
+
+Try the [greetings cards](/learn/greetings), then play [flashcards](/games/flashcards) and practice saying each phrase aloud.
+`,
+    published_at: '2026-08-05T09:00:00.000Z',
+  },
+  {
+    title: 'Build Your First 60-Second Conversation',
+    slug: 'first-javanese-conversation',
+    excerpt: 'A simple greeting, a check-in, and a friendly goodbye you can reuse anywhere.',
+    body: `## The conversation spine
+
+Short conversations become easier when you reuse a dependable order: greet, ask how someone is, answer, then close warmly.
+
+**A:** Sugeng enjing! (Good morning!)
+
+**B:** Sugeng enjing. Piye kabaré? (Good morning. How are you?)
+
+**A:** Kabaré apik, matur nuwun. (I’m well, thank you.)
+
+**B:** Apik. (Good.)
+
+That exchange is enough for a first meeting. In a more polite setting, choose a respectful greeting and keep your voice calm. With a close friend, *piye kabaré?* feels relaxed and natural.
+
+## Add one detail
+
+Use one word from another topic to make the exchange yours: *Aku arep tuku kopi* (I want to buy coffee), or *Pasaré ngendi?* (Where is the market?). You do not need to build a complicated sentence; one useful detail invites the next reply.
+
+## Close without rushing
+
+*Matur nuwun* works whenever you are grateful. *Nganti ketemu* means “see you” and gives a conversation a friendly landing. Say the full exchange once, then repeat it with your own name or destination.
+
+Use the [actions](/learn/actions) and [places](/learn/places) lists for substitutions, and let the [quiz](/games/quiz) check the words you remember.
+`,
+    published_at: '2026-08-12T09:00:00.000Z',
+  },
+ ];
 
 export async function seedDemoContent(): Promise<void> {
   for (const entry of posts) {

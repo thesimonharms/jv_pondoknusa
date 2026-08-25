@@ -4,7 +4,10 @@ export type VocabCategory =
   | 'family'
   | 'food'
   | 'colors'
-  | 'everyday';
+  | 'everyday'
+  | 'places'
+  | 'actions'
+  | 'feelings';
 
 export interface VocabItem {
   id: string;
@@ -60,6 +63,24 @@ export const categories: CategoryMeta[] = [
     title: 'Everyday',
     blurb: 'Useful words for daily conversation.',
     emoji: '🗣️',
+  },
+  {
+    id: 'places',
+    title: 'Places & Directions',
+    blurb: 'Find your way around town with confidence.',
+    emoji: '🧭',
+  },
+  {
+    id: 'actions',
+    title: 'Useful Actions',
+    blurb: 'Simple verbs and little words for real conversations.',
+    emoji: '🌱',
+  },
+  {
+    id: 'feelings',
+    title: 'Feelings & Descriptions',
+    blurb: 'Describe how you feel and what you notice.',
+    emoji: '💛',
   },
 ];
 
@@ -217,6 +238,52 @@ export const vocabulary: VocabItem[] = [
   { id: 'gedhe', javanese: 'gedhe', english: 'big', category: 'everyday' },
   { id: 'cilik', javanese: 'cilik', english: 'small', category: 'everyday' },
   { id: 'ayis', javanese: 'ayis', english: 'delicious / tasty (of food)', category: 'everyday', notes: 'Often enake or énak in practice; ayis is common Ngoko praise.' },
+  // Places & directions
+  { id: 'kene', javanese: 'kéné', english: 'here', category: 'places', aksara: 'ꦏꦼꦤꦺ' },
+  { id: 'kana', javanese: 'kana', english: 'there', category: 'places' },
+  { id: 'ngendi', javanese: 'ngendi?', english: 'where?', category: 'places', example: 'Pasaré ngendi?', exampleEn: 'Where is the market?' },
+  { id: 'kiwa', javanese: 'kiwa', english: 'left', category: 'places' },
+  { id: 'tengen', javanese: 'tengen', english: 'right', category: 'places' },
+  { id: 'lurus', javanese: 'lurus', english: 'straight', category: 'places' },
+  { id: 'cedhak', javanese: 'cedhak', english: 'near', category: 'places' },
+  { id: 'adoh', javanese: 'adoh', english: 'far', category: 'places' },
+  { id: 'mlebu', javanese: 'mlebu', english: 'enter / go in', category: 'places' },
+  { id: 'metu', javanese: 'metu', english: 'exit / go out', category: 'places' },
+  { id: 'stasiun', javanese: 'stasiun', english: 'station', category: 'places' },
+  { id: 'terminal', javanese: 'terminal', english: 'bus terminal', category: 'places' },
+  { id: 'kamar-mandi', javanese: 'kamar mandi', english: 'bathroom', category: 'places', example: 'Kamar mandiné ning endi?', exampleEn: 'Where is the bathroom?' },
+
+  // Useful actions
+  { id: 'arep', javanese: 'arep', english: 'want to / going to', category: 'actions', example: 'Aku arep lunga.', exampleEn: 'I’m going to leave.' },
+  { id: 'bisa', javanese: 'bisa', english: 'can / be able to', category: 'actions' },
+  { id: 'ngerti', javanese: 'ngerti', english: 'understand', category: 'actions', example: 'Aku ora ngerti.', exampleEn: 'I don’t understand.' },
+  { id: 'ora', javanese: 'ora', english: 'no / not', category: 'actions' },
+  { id: 'ya', javanese: 'ya', english: 'yes', category: 'actions' },
+  { id: 'tulung', javanese: 'tulung', english: 'help / please', category: 'actions', example: 'Tulung, nggih.', exampleEn: 'Please / help, okay.' },
+  { id: 'tuku', javanese: 'tuku', english: 'buy', category: 'actions', example: 'Aku arep tuku kopi.', exampleEn: 'I want to buy coffee.' },
+  { id: 'adol', javanese: 'adol', english: 'sell', category: 'actions' },
+  { id: 'lunga', javanese: 'lunga', english: 'go / leave', category: 'actions' },
+  { id: 'teka', javanese: 'teka', english: 'come / arrive', category: 'actions' },
+  { id: 'ngombe', javanese: 'ngombé', english: 'drink', category: 'actions' },
+  { id: 'turu', javanese: 'turu', english: 'sleep', category: 'actions' },
+  { id: 'maca', javanese: 'maca', english: 'read', category: 'actions' },
+  { id: 'nulis', javanese: 'nulis', english: 'write', category: 'actions' },
+
+  // Feelings & descriptions
+  { id: 'seneng', javanese: 'seneng', english: 'happy / glad', category: 'feelings', example: 'Aku seneng ketemu kowe.', exampleEn: 'I’m happy to meet you.' },
+  { id: 'sedhih', javanese: 'sedhih', english: 'sad', category: 'feelings' },
+  { id: 'kesel', javanese: 'kesel', english: 'tired / annoyed', category: 'feelings' },
+  { id: 'lara', javanese: 'lara', english: 'sick / hurting', category: 'feelings', example: 'Aku lagi lara.', exampleEn: 'I’m feeling unwell.' },
+  { id: 'wedi', javanese: 'wedi', english: 'afraid', category: 'feelings' },
+  { id: 'bingung', javanese: 'bingung', english: 'confused', category: 'feelings' },
+  { id: 'kaget', javanese: 'kaget', english: 'surprised / startled', category: 'feelings' },
+  { id: 'kuwatir', javanese: 'kuwatir', english: 'worried', category: 'feelings' },
+  { id: 'tentrem', javanese: 'tentrem', english: 'peaceful / calm', category: 'feelings' },
+  { id: 'ayu', javanese: 'ayu', english: 'beautiful', category: 'feelings' },
+  { id: 'resik', javanese: 'resik', english: 'clean', category: 'feelings' },
+  { id: 'reged', javanese: 'reged', english: 'dirty', category: 'feelings' },
+  { id: 'cepet', javanese: 'cepet', english: 'fast / quick', category: 'feelings' },
+  { id: 'alon', javanese: 'alon', english: 'slow / gently', category: 'feelings', example: 'Alon-alon waé.', exampleEn: 'Take it slowly.' },
 ];
 
 // Fix accidental leading space on bakso id/value if any

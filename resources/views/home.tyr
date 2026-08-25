@@ -45,6 +45,31 @@
     </aside>
   </section>
 
+  <section class="section-head">
+    <div>
+      <h2>A gentle way to learn</h2>
+      <p>Build a little context around each word, then use it before it gets dusty.</p>
+    </div>
+  </section>
+  <div class="grid">
+    <article class="card">
+      <div class="eyebrow">01 · Notice</div>
+      <h3>Meet a small set of words</h3>
+      <p>Choose one topic and start with five cards. Read the Latin spelling, look for the optional Aksara Jawa, and say each word once.</p>
+    </article>
+    <article class="card">
+      <div class="eyebrow">02 · Use</div>
+      <h3>Turn words into a moment</h3>
+      <p>Try the examples on each card, then make one tiny sentence of your own. The goal is a useful exchange, not a perfect worksheet.</p>
+    </article>
+    <article class="card">
+      <div class="eyebrow">03 · Return</div>
+      <h3>Practice without pressure</h3>
+      <p>Play a quick game, read one cultural note, and come back when you have a spare minute. There are no streaks to lose here.</p>
+    </article>
+  </div>
+ 
+
   <div class="section-head">
     <div>
       <h2>Start with a topic</h2>

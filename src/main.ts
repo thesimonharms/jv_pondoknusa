@@ -12,8 +12,6 @@ import {
   EventServiceProvider,
   HealthServiceProvider,
   HttpKernel,
-  MailServiceProvider,
-  NotificationServiceProvider,
   QueueServiceProvider,
   StorageServiceProvider,
   prepareHttpServer,
@@ -23,8 +21,6 @@ import {
   setLangApplication,
   setUrlApplication,
   setLogApplication,
-  setMailApplication,
-  setNotificationApplication,
   setQueueApplication,
   setRouteApplication,
   setStorageApplication,
@@ -51,16 +47,12 @@ setBroadcastApplication(app);
 setCacheApplication(app);
 setStorageApplication(app);
 setLogApplication(app);
-setMailApplication(app);
-setNotificationApplication(app);
 
 app.register(ConfigServiceProvider);
 app.register(DatabaseServiceProvider);
 app.register(CacheServiceProvider);
 app.register(StorageServiceProvider);
 app.register(LogServiceProvider);
-app.register(MailServiceProvider);
-app.register(NotificationServiceProvider);
 app.register(QueueServiceProvider);
 app.register(EventServiceProvider);
 app.register(BroadcastServiceProvider);

@@ -9,6 +9,16 @@
   <h1>Vocabulary lists</h1>
   <p class="lead">{{ wordCount }} beginner-friendly Javanese words and phrases, grouped by everyday topics.</p>
 
+  <section class="post-body" style="margin-top:1.25rem">
+    <h2>Start with the situation, not the spreadsheet</h2>
+    <p>Javanese changes with relationship and setting. <strong>Ngoko</strong> is common with close friends; <strong>Krama</strong> helps you show respect to elders, teachers, and people you have just met.</p>
+    <p>When you are unsure, begin with a friendly greeting, listen to the reply, and ask what wording feels natural. These lists mark useful notes where a polite or casual alternative is especially common.</p>
+    <div class="actions">
+      <a class="btn btn-secondary" href="/blog/ngoko-vs-krama">Read about speech levels</a>
+      <a class="btn btn-ghost" href="/games/flashcards">Practice five cards</a>
+    </div>
+  </section>
+
   <div class="grid" style="margin-top:1.5rem">
     @foreach(category of categories)
       <a class="card" href="/learn/{{ category.id }}" style="text-decoration:none;color:inherit">
